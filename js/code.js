@@ -1,6 +1,16 @@
 /**
-    Mouse joint demo of box2d in javascript
-    Silver Moon (m00n.silv3r@gmail.com)
+     _____                                        ____  ____  
+    |  ___|_ _  ___ ___ _ __ ___   __ _ _______  |___ \|  _ \ 
+    | |_ / _` |/ __/ _ \ '_ ` _ \ / _` |_  / _ \   __) | | | |
+    |  _| (_| | (_|  __/ | | | | | (_| |/ /  __/  / __/| |_| |
+    |_|  \__,_|\___\___|_| |_| |_|\__,_/___\___| |_____|____/ 
+                                                              
+    HTML5 game using Box2dJS and headtrackr
+    Cristian Cortez (cortez.cristian@gmail.com)
+
+    Inspired on:
+        Mouse joint demo of box2d in javascript
+        Silver Moon (m00n.silv3r@gmail.com)
 */
 var b2Vec2 = Box2D.Common.Math.b2Vec2
     , b2AABB = Box2D.Collision.b2AABB
