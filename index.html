@@ -13,6 +13,10 @@
         margin:0;
         padding:0;
     }
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+        font-size: 15px;
+    }
     ul {
         float: left;    
         list-style: none;
@@ -22,6 +26,18 @@
     }
     .winner {
         display: none;
+    }
+    .panel {
+        float: left;
+        min-width: 640px;
+    }
+    .panel-g {
+        float: left;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #d9d9d9;
+        padding: 1.25em;
+        background: #f2f2f2;
     }
     </style>
 </head>
@@ -34,11 +50,22 @@
         <li>Y: <span class="y-head">0</span></li>
         <li class="winner">
             <h2>You Win!</h2>
-            <img src="./img/win1.jpg" style="max-height:393px;" />
+            <img src="./img/win1.jpg" style="max-height:400px;" />
         </li>
     </ul>
     <hr/>
-     <canvas id="inputCanvas" width="320" height="240"></canvas><video id="inputVideo" autoplay="autoplay" loop="loop"></video>
+     <div class="panel">
+        <canvas id="inputCanvas" width="320" height="240"></canvas><video id="inputVideo" autoplay="autoplay" loop="loop"></video>
+    </div>
+     <div class="panel-g">
+        <p>
+           Facemaze is an HMTL5 Game where you need to control the character with face movements.
+        </p>
+        <p>You'll need to give permissions to your browser to control the camera, when prompted just click Allow</p>
+        <br />
+        <a href="https://twitter.com/cortezcristian" class="twitter-follow-button" data-show-count="false">Follow @cortezcristian</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
 </body>
  
 </html>
