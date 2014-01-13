@@ -37,6 +37,8 @@ var mouse_pressed = false;
 var mouse_joint = false;
 var mouse_x, mouse_y;
 var superball;
+var maze;
+var maze_base;
  
 //box2d to canvas scale , therefor 1 metre of box2d = 30px of canvas :)
 var scale = 30;
@@ -83,16 +85,102 @@ function createWorld()
     world.SetDebugDraw(debugDraw);
      
     //create some objects
+    // basic walls
     ground = createBox(world, 10.5, 2, 20 , 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
     ground = createBox(world, 10.5, 14, 20, 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
     ground = createBox(world, 0.7, 8, 0.5, 12.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
-    ground = createBox(world, 20.3, 8, 0.5, 12.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
-    ground = createBox(world, 2, 10, 3, 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
-    ground = createBox(world, 6, 9.7, 0.5, 9, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
+    ground = createBox(world, 20.3, 8, 0.5, 12.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)', 'border_color' : '#7FE57F' }});
+
+    maze_base = new Maze(6, 4, Maze.Algorithms.Prim);
+    maze_base.generate();
+    //console.table(maze_base.grid.data);
+    /*
+    */
+    maze_base.grid.data = maze_base.grid.data.map(function(col, i) { 
+      return maze_base.grid.data.map(function(row) { 
+        return row[i] 
+      })
+    });
+    //console.table(maze_base.grid.data);
+    maze = [];
+    var space=3, h_width=3, v_width=0.5, h_height=0.5, v_height=3, h_x=2, h_y=12.7, v_x=3.5, v_y=12.5;
+
+    var f=0;
+    for(var i=0; i<maze_base.grid.data.length;i++){
+        for(var j=0;j<maze_base.grid.data[i].length;j++){
+            console.log("Cell("+i+","+j+") E", maze_base.isEast(i,j))
+            //console.log("Cell("+i+","+j+") W", maze_base.isWest(i,j))
+            //console.log("Cell("+i+","+j+") N", maze_base.isNorth(i,j))
+            console.log("Cell("+i+","+j+") S", maze_base.isSouth(i,j))
+            f=i*2;
+            console.log(f,i);
+            if(typeof maze[f]=="undefined"){
+                maze[f]= [];
+            }
+            if(typeof maze[f+1]=="undefined"){
+                maze[f+1]= [];
+            }
+            maze[f].push((maze_base.isEast(i,j))?0:1);
+            maze[f+1].push((maze_base.isSouth(i,j))?0:1);
+        }
+    }
+
+    /*
+    maze[0] = [0,1,0,1,0,1];
+    maze[1] = [1,1,1,1,1,1];
+    maze[2] = [0,1,0,1,0,1];
+    maze[3] = [1,1,1,1,1,1];
+    maze[4] = [0,1,0,1,0,1];
+    maze[5] = [1,1,1,1,1,1];
+    maze[6] = [0,1,0,1,0,1];
+
+
+    maze[0] = [1,1,1,1,1,1];
+    maze[1] = [0,0,1,1,1,1];
+    maze[2] = [0,1,0,1,0,1];
+    maze[3] = [1,1,1,1,1,1];
+    maze[4] = [0,1,0,1,0,1];
+    maze[5] = [0,1,1,1,1,1];
+    maze[6] = [0,1,0,1,0,1];
+    */
+
+
+    for(var i=0;i<maze.length;i++){
+        if(i%2==0){
+            //vertical walls
+            wval = v_width;
+            hval = v_height;
+            xval = v_x;
+            yval = v_y;
+            spacex=space;
+            spacey=-1.5;
+        }else{
+            //horizontal walls
+            wval = h_width;
+            hval = h_height;
+            xval = h_x;
+            yval = h_y;
+            spacex=space;
+            spacey=-1.5;
+        }
+        for(var j=0; j<maze[i].length;j++){
+            if(maze[i][j]==1){
+            if(i%2==0){xval=v_x+(spacex*j);yval=v_y+(spacey*i) }else{xval=h_x+(spacex*j);yval=h_y+(spacey*i)};
+            ground = createBox(world, xval, yval, wval, hval, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
+            }
+        }
+    }
+
+    // inner walls
+    //ground = createBox(world, 2, 11, 3, 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
+    //ground = createBox(world, 6, 9.7, 0.5, 9, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
+    /*
     ground = createBox(world, 4.7, 5, 3, 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
     ground = createBox(world, 18, 5, 5, 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
     ground = createBox(world, 15.2, 7.8, 0.5, 6, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
+    */
     ground = createBox(world, 18, 5.3, 5, 0.2, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(255,0,0,1)' , 'border_color' : '#ff0000' }});
+
     createBox(world, 6.50, 3.80, 1 , 1, {'user_data' : {'border_color' : '#555' }});
     createBox(world, 8.50, 3.80, 1 , 1, {'user_data' : {'fill_color' : 'rgba(204,0,165,0.3)' , 'border_color' : '#555' }});
     createBox(world, 8.50, 3.80, 1 , 1, {'user_data' : {'fill_color' : 'rgba(0,0,165,0.3)' , 'border_color' : '#b4d455', 'solution':'solved' }});
