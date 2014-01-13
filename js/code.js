@@ -145,7 +145,7 @@ function createWorld()
     */
 
 
-    for(var i=0;i<maze.length;i++){
+    for(var i=0;i<maze.length-1;i++){
         if(i%2==0){
             //vertical walls
             wval = v_width;
@@ -176,9 +176,9 @@ function createWorld()
     //ground = createBox(world, 6, 9.7, 0.5, 9, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
     /*
     ground = createBox(world, 4.7, 5, 3, 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
+    */
     ground = createBox(world, 18, 5, 5, 0.5, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
     ground = createBox(world, 15.2, 7.8, 0.5, 6, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(204,237,165,1)' , 'border_color' : '#7FE57F' }});
-    */
     ground = createBox(world, 18, 5.3, 5, 0.2, {type : b2Body.b2_staticBody, 'user_data' : {'fill_color' : 'rgba(255,0,0,1)' , 'border_color' : '#ff0000' }});
 
     createBox(world, 6.50, 3.80, 1 , 1, {'user_data' : {'border_color' : '#555' }});
