@@ -3,6 +3,11 @@ facemaze2d
 
 HTML5 game using Box2dJS and headtrackr. The basic idea for this game proof of concept was to allow players to resolve a random maze using their face movements. [See the demo](http://cortezcristian.com/facemaze2d/) You'll need to give permissions to your browser to control the camera, when prompted just click Allow.
 
+
+![Demo Preview](https://raw2.github.com/cortezcristian/facemaze2d/master/img/facemaze2d.png "Facemaze 2d demo")
+
+
+
 [headtrackr](https://github.com/auduno/headtrackr/) is a javascript library that uses new browsers capabilities like getUserMedia to run a face recognition algorithm.
 
 
